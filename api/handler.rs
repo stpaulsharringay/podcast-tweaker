@@ -7,10 +7,7 @@ async fn main() -> Result<(), Error> {
     run(handler).await
 }
 
-pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
-    let host = req.headers().get("Host").map(|h| h.to_str().unwrap());
-
-    println!("Request from host: {}", host.unwrap_or("Unknown"));
+pub async fn handler(_req: Request) -> Result<Response<Body>, Error> {
     let channel = get_updated_feed().await;
     let response: Result<Response<Body>, Error> = if let Ok(channel) = channel {
         Ok(Response::builder()
