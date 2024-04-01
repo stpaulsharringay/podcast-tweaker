@@ -4,4 +4,4 @@ This is a Vercel serverless function that takes the Wordpress output of our RSS 
 
 I've written this in Rust because I enjoy overcomplicating things. And the Rust RSS parser/generator seemed *way* better thought through than the JS one I found (although I'm sure there are better ones).
 
-The Vercel function is aliased from <podcast.stpaulsharringay.com>.
+The Vercel function is aliased from <https://podcast.stpaulsharringay.com>.
