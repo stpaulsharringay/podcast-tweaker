@@ -7,15 +7,20 @@ async fn main() -> Result<(), Error> {
     run(handler).await
 }
 
-pub async fn handler(_req: Request) -> Result<Response<Body>, Error> {
+pub async fn handler(req: Request) -> Result<Response<Body>, Error> {
+    let host = req.headers().get("Host").map(|h| h.to_str().unwrap());
+
+    println!("Request from host: {}", host.unwrap_or("Unknown"));
     let channel = get_updated_feed().await;
     let response: Result<Response<Body>, Error> = if let Ok(channel) = channel {
         Ok(Response::builder()
             .status(StatusCode::OK)
+            .header("Cache-Control", "public, s-maxage=60")
             .body(channel.to_string().into())?)
     } else {
         Ok(Response::builder()
             .status(StatusCode::INTERNAL_SERVER_ERROR)
+            .header("Cache-Control", "public, s-maxage=60")
             .body("".into())?)
     };
     response
