@@ -10,7 +10,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut channel = Channel::from_str(&feed)?;
     for item in channel.items_mut() {
         let sermon_title = item.title.as_ref();
-        let passage = item.description.as_ref().map(|s| s.trim());
+        let passage = item.description.as_ref().map(|s| {
+            s.trim()
+                .replace(": ", ":")
+                .replace(" :", ":")
+                .replace("- ", "-")
+                .replace(" -", "-")
+        });
 
         let new_title: Option<String> = match (sermon_title, passage) {
             (Some(title), Some(passage)) => Some(format!("{title} ({passage})")),
