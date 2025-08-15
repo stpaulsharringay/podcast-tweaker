@@ -1,4 +1,4 @@
-This is a Vercel serverless function that takes the Wordpress output of our RSS feed (ie, <https://stpaulsharringay.com/wp-content/uploads/podcast.xml>), and transforms it slightly to:
+This is a Vercel serverless function that takes the Wordpress output of our RSS feed (<https://stpaulsharringay.com/wp-content/uploads/podcast.xml>), and transforms it slightly to:
 1. Include the passage reference in the episode title
 2. Put the speaker's name as the episode description
 
