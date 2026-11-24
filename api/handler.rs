@@ -11,7 +11,13 @@ pub async fn handler(_req: Request) -> Result<Response<Body>, Error> {
             eprintln!("Feed fetched and transformed successfully ({} items)", channel.items().len());
             Ok(Response::builder()
                 .status(StatusCode::OK)
-                .header("Cache-Control", "public, s-maxage=60")
+                // Cache at Vercel's edge for 1h, and keep serving a stale copy (while
+                // refreshing in the background) for up to a day, so most podcast-app
+                // polls never invoke the function. Clients may cache for 15 min.
+                .header(
+                    "Cache-Control",
+                    "public, max-age=900, s-maxage=3600, stale-while-revalidate=86400",
+                )
                 .body(channel.to_string().into())?)
         }
         Err(e) => {
